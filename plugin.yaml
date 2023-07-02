@@ -1,0 +1,43 @@
+schema-version: v1
+kind: plugin
+metadata:
+  name: opentelemetry
+  display-name: opentelemetry
+  description: Plugin do opentelemetry para aplicações java com spring e maven
+  version: 0.0.1
+  picture: plugin.png
+spec:
+  type: app
+  compatibility:
+    - java
+    - Spring
+    - Maven
+  about: docs/about.md
+  implementation: docs/implementation.md
+  release-notes: docs/release-notes-0.0.1.md
+  requirements: docs/requirements.md
+  technologies: # Ref: https://docs.stackspot.com/content-creator/studio/yaml-files/plugin-yaml/#technologies
+    - Api
+
+hooks:
+  - type: edit
+    trigger: after-render
+    path: pom.xml
+    changes:
+      - search:
+          string: "</dependencies>"
+          insert-before:
+            snippet: snippets/dependencies.txt
+          when:
+            not-exists-snippet: snippets/dependencies.txt
+
+    - type: edit
+    trigger: after-render
+    path: pom.xml
+    changes:
+      - search:
+          string: "</properties>"
+          insert-before:
+            snippet: snippets/properties.txt
+          when:
+            not-exists-snippet: snippets/properties.txt
